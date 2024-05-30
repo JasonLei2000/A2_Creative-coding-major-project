@@ -1,17 +1,24 @@
-let song, analyzer, rmsDiameter, InitialRmsDiameter;
-let rms,button;
+let song, analyzerTop,analyzerBottom, rmsTopDiameter,rmsBottomDiameter, InitialRmsDiameter;
+let rmsTop,rmsBottom,button,blue,green,yellow,modena
+;
+let pan = 0.0;
+let isPlaying = false; 
+
 
 // Load audio
 function preload() {
-  song = loadSound('asserts/The Real Group - Words.mp3');
+  songTop = loadSound('asserts/words_top.mp3');
+  songBottom = loadSound('asserts/words_bottom.mp3');
 }
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
   
   // Analysing song volume
-  analyzer = new p5.Amplitude();
-  analyzer.setInput(song);
+  analyzerTop = new p5.Amplitude();
+  analyzerBottom = new p5.Amplitude();
+  analyzerTop.setInput(songTop);
+  analyzerBottom.setInput(songBottom);
 
   // Creating a Play Button
   button = createButton('Play/Pause');
@@ -27,19 +34,21 @@ function setup() {
 }
 
 function draw() {
-  background(148, 177, 169);
+  background("#151741");
   
-  rms = analyzer.getLevel();
+  rmsTop = analyzerTop.getLevel();
+  rmsBottom = analyzerBottom.getLevel();
 
   // Setting page colours
-  let green = '#6F8F6A';
-  let red = '#C15B5C';
-  let yellow = '#F8E8B6';
+  blue = '#3C4E90';
+  modena = "#50547B"
+  green = '#49883F';
+  yellow = '#E4CB66';
 
   let rectMargin = 0.1 * width;
 
   // Draw the background rectangle with a different color
-  drawRect(rectMargin, rectMargin, width - 2 * rectMargin, height - 2 * rectMargin, color(49, 74, 85));
+  drawRect(rectMargin, rectMargin, width - 2 * rectMargin, height - 2 * rectMargin, modena);
   image(staticBackground, 0, 0);
 
   let centerX = width / 2;
@@ -70,21 +79,22 @@ function draw() {
 
   push();
    // Draw the bottom rectangle
-  drawRect(rectMargin, centerY + 1.71 * diameters[5] + diameters[6] + diameters[7],width - 2 * rectMargin, 0.09*height, green);
+  drawRect(rectMargin, centerY + 1.71 * diameters[5] + diameters[6] + diameters[7],width - 2 * rectMargin, 0.09*height, blue);
   drawRect(width/3, centerY + 1.71 * diameters[5] + diameters[6] + diameters[7],width/3, 0.08*height, yellow);
  
+
   // Painting the bottom pattern
-  fill(green);
+  fill(blue);
   noStroke();
   rect(centerX - 2.1 * diameters[5], centerY + 1.7 * diameters[5] + diameters[6] + diameters[7],  diameters[5], 0.08*height);
  
-  fill(red);
+  fill(green);
   rect(centerX + 1.1 * diameters[5], centerY + 1.7 * diameters[5] + diameters[6] + diameters[7],  diameters[5], 0.08*height);
 
   fill(yellow);
  
-  arc(centerX + 1.6 * diameters[5],centerY + 1.71 * diameters[5] + diameters[6] + diameters[7]+0.079*height,diameters[5],diameters[5], PI, 0);
-  arc(centerX - 1.6 * diameters[5],centerY + 1.71 * diameters[5] + diameters[6] + diameters[7]+0.079*height,diameters[5],diameters[5], PI, 0);
+  arc(centerX + 1.6 * diameters[5],centerY + 1.71 * diameters[5] + diameters[6] + diameters[7]+0.079*height,diameters[5]+200*rmsTop,diameters[5]+200*rmsTop, PI, 0);
+  arc(centerX - 1.6 * diameters[5],centerY + 1.71 * diameters[5] + diameters[6] + diameters[7]+0.079*height,diameters[5]+200*rmsTop,diameters[5]+200*rmsTop, PI, 0);
 
   pop();
 
@@ -129,7 +139,7 @@ function drawRect(x, y, width, height, color) {
 function drawLine(x, y, x1, y1) {
   push();
   stroke(235, 187, 138);
-  strokeWeight(3);
+  strokeWeight(5);
   line(x, y, x1, y1);
   pop();
 }
@@ -138,52 +148,70 @@ function drawLine(x, y, x1, y1) {
 function drawSplitCircle(x, y, diameter) {
   let minDiameter = diameter /1.5;
   let maxDiameter = diameter*1.15;
+  rmsTopDiameter = map(rmsTop, 0, 0.2, minDiameter, maxDiameter);
 
-  rmsDiameter = map(rms, 0, 0.3, minDiameter, maxDiameter);
-  fill('#6F8F6A');
-  arc(x, y,  rmsDiameter,  rmsDiameter, PI, 0);
-  fill('#C15B5C');
-  arc(x, y, rmsDiameter, rmsDiameter, 0, PI);
+  fill(blue);
+  arc(x, y,  rmsTopDiameter,  rmsTopDiameter, PI, 0);
+  fill(green);
+  arc(x, y, rmsTopDiameter, rmsTopDiameter, 0, PI);
   noFill();
-  ellipse(x, y, rmsDiameter, rmsDiameter);
+  ellipse(x, y, rmsTopDiameter, rmsTopDiameter);
 }
 
 // Draw a circle divided right and left
 function drawSplitCircleLR(x, y, diameter) {
   let minDiameter = diameter /1.5;
   let maxDiameter = diameter*1.15;
-  rmsDiameter = map(rms, 0, 0.3, minDiameter, maxDiameter);
-  fill('#6F8F6A');
-  arc(x, y, rmsDiameter, rmsDiameter, HALF_PI, HALF_PI + PI);
-  fill('#C15B5C');
-  arc(x, y, rmsDiameter, rmsDiameter, HALF_PI + PI, HALF_PI);
+  
+  
+  rmsBottomDiameter = map(rmsBottom, 0, 0.2, minDiameter, maxDiameter);
+  fill(blue);
+  arc(x, y, rmsBottomDiameter, rmsBottomDiameter, HALF_PI, HALF_PI + PI);
+  fill(green);
+  arc(x, y, rmsBottomDiameter, rmsBottomDiameter, HALF_PI + PI, HALF_PI);
   noFill();
-  ellipse(x, y, rmsDiameter, rmsDiameter);
+  ellipse(x, y, rmsBottomDiameter, rmsBottomDiameter);
 }
 
 // Draw a circle divided by red and green
 function drawSplitCircleTopRed(x, y, diameter) {
   let minDiameter = diameter /1.5;
   let maxDiameter = diameter*1.15;
-  rmsDiameter = map(rms, 0, 0.3, minDiameter, maxDiameter);
-  fill('#C15B5C');
-  arc(x, y, rmsDiameter, rmsDiameter, PI, 0);
-  fill('#6F8F6A');
-  arc(x, y, rmsDiameter,rmsDiameter, 0, PI);
+  
+  rmsTopDiameter = map(rmsTop, 0, 0.2, minDiameter, maxDiameter);
+  fill(green);
+  arc(x, y, rmsTopDiameter, rmsTopDiameter, PI, 0);
+  fill(blue);
+  arc(x, y, rmsTopDiameter,rmsTopDiameter, 0, PI);
   noFill();
-  ellipse(x, y, rmsDiameter, rmsDiameter);
+  ellipse(x, y, rmsTopDiameter, rmsTopDiameter);
 }
 
 // Control music play and pause
 function play_pause() {
-  if (song.isPlaying()) {
-    song.stop();
+  if (!isPlaying) {
+    songTop.play();
+    songBottom.play();
+    isPlaying = true;
   } else {
-    song.loop();
+    songTop.stop();
+    songBottom.stop();
+    isPlaying = false;
   }
 }
 
 // Adaptive position of control buttons
 function buttonPos(){
+  button.style('background-color', '#3C4E90');
+  button.style('color', 'white');
+  button.style('text-align', 'center');
   button.position((width - button.width) / 2, (height - button.height)*0.9 );
 }
+
+function mouseMoved() {
+
+  pan = map(mouseX, 0, width, -1, 1);
+  songTop.pan(pan);
+  songBottom.pan(pan);
+}
+
