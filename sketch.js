@@ -1,10 +1,35 @@
+let song, analyzer, rmsDiameter, InitialRmsDiameter;
+let rms,button;
+
+// Load audio
+function preload() {
+  song = loadSound('asserts/The Real Group - Words.mp3');
+}
+
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  noLoop();
+  
+  // Analysing song volume
+  analyzer = new p5.Amplitude();
+  analyzer.setInput(song);
+
+  // Creating a Play Button
+  button = createButton('Play/Pause');
+  buttonPos();
+  button.mousePressed(play_pause);
+
+    // Creating a background texture
+  staticBackground = createGraphics(windowWidth, windowHeight);
+  for (let i = 0; i < 10000; i++) {
+    staticBackground.stroke(200, 200, 250, 50);
+    staticBackground.point(random(width), random(height));
+  }
 }
 
 function draw() {
   background(148, 177, 169);
+  
+  rms = analyzer.getLevel();
 
   // Setting page colours
   let green = '#6F8F6A';
@@ -15,6 +40,7 @@ function draw() {
 
   // Draw the background rectangle with a different color
   drawRect(rectMargin, rectMargin, width - 2 * rectMargin, height - 2 * rectMargin, color(49, 74, 85));
+  image(staticBackground, 0, 0);
 
   let centerX = width / 2;
   let centerY = height / 2;
@@ -26,6 +52,8 @@ function draw() {
     baseDiameter * 0.75, baseDiameter * 0.625, baseDiameter, baseDiameter * 0.375,
     baseDiameter * 0.375, baseDiameter * 0.625, baseDiameter, baseDiameter * 0.75
   ];
+
+  
     // Central circle
   drawSplitCircle(centerX, centerY, diameters[0]);
 
@@ -83,19 +111,13 @@ function draw() {
   drawSplitCircleLR(centerX + 1.26 * diameters[6] + diameters[4] + diameters[7] / 2, centerY - 2.3 * diameters[4]/2- 2 * diameters[5] / 2- diameters[6]/2, diameters[6]);
   drawLine(centerX + 1.26 * diameters[6] + diameters[4] + diameters[7] / 2, centerY, centerX + 1.26 * diameters[6] + diameters[4] + diameters[7] / 2, centerY - 2.3 * diameters[4]/2- 2 * diameters[5] / 2- diameters[6]);
 
-    // Draw background texture
-  for (let i = 0; i < 10000; i++) {
-    push;
-    stroke(200, 200, 250, 50);
-    point(random(width), random(height));
-    pop;
-  }
 }
 
 // Adaptive Window
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight);
   redraw();
+  buttonPos()
 }
 
 function drawRect(x, y, width, height, color) {
@@ -114,30 +136,54 @@ function drawLine(x, y, x1, y1) {
 
 // Draw a circle divided up and down
 function drawSplitCircle(x, y, diameter) {
+  let minDiameter = diameter /1.5;
+  let maxDiameter = diameter*1.15;
+
+  rmsDiameter = map(rms, 0, 0.3, minDiameter, maxDiameter);
   fill('#6F8F6A');
-  arc(x, y, diameter, diameter, PI, 0);
+  arc(x, y,  rmsDiameter,  rmsDiameter, PI, 0);
   fill('#C15B5C');
-  arc(x, y, diameter, diameter, 0, PI);
+  arc(x, y, rmsDiameter, rmsDiameter, 0, PI);
   noFill();
-  ellipse(x, y, diameter, diameter);
+  ellipse(x, y, rmsDiameter, rmsDiameter);
 }
 
 // Draw a circle divided right and left
 function drawSplitCircleLR(x, y, diameter) {
+  let minDiameter = diameter /1.5;
+  let maxDiameter = diameter*1.15;
+  rmsDiameter = map(rms, 0, 0.3, minDiameter, maxDiameter);
   fill('#6F8F6A');
-  arc(x, y, diameter, diameter, HALF_PI, HALF_PI + PI);
+  arc(x, y, rmsDiameter, rmsDiameter, HALF_PI, HALF_PI + PI);
   fill('#C15B5C');
-  arc(x, y, diameter, diameter, HALF_PI + PI, HALF_PI);
+  arc(x, y, rmsDiameter, rmsDiameter, HALF_PI + PI, HALF_PI);
   noFill();
-  ellipse(x, y, diameter, diameter);
+  ellipse(x, y, rmsDiameter, rmsDiameter);
 }
 
 // Draw a circle divided by red and green
 function drawSplitCircleTopRed(x, y, diameter) {
+  let minDiameter = diameter /1.5;
+  let maxDiameter = diameter*1.15;
+  rmsDiameter = map(rms, 0, 0.3, minDiameter, maxDiameter);
   fill('#C15B5C');
-  arc(x, y, diameter, diameter, PI, 0);
+  arc(x, y, rmsDiameter, rmsDiameter, PI, 0);
   fill('#6F8F6A');
-  arc(x, y, diameter, diameter, 0, PI);
+  arc(x, y, rmsDiameter,rmsDiameter, 0, PI);
   noFill();
-  ellipse(x, y, diameter, diameter);
+  ellipse(x, y, rmsDiameter, rmsDiameter);
+}
+
+// Control music play and pause
+function play_pause() {
+  if (song.isPlaying()) {
+    song.stop();
+  } else {
+    song.loop();
+  }
+}
+
+// Adaptive position of control buttons
+function buttonPos(){
+  button.position((width - button.width) / 2, (height - button.height)*0.9 );
 }
