@@ -145,8 +145,8 @@ function drawLine(x, y, x1, y1) {
 
 // // Draw a circle divided by top blue
 function drawSplitCircleTopBlue(x, y, diameter) {
-  let minDiameter = diameter /1.5;
-  let maxDiameter = diameter*1.15;
+  let minDiameter = diameter / 1.5;
+  let maxDiameter = diameter * 1.15;
   rmsTopDiameter = map(rmsTop, 0, 0.2, minDiameter, maxDiameter);
   fill(blue);
   arc(x, y,  rmsTopDiameter,  rmsTopDiameter, PI, 0);
@@ -158,8 +158,8 @@ function drawSplitCircleTopBlue(x, y, diameter) {
 
 // Draw a circle divided right and left
 function drawSplitCircleLR(x, y, diameter) {
-  let minDiameter = diameter /1.5;
-  let maxDiameter = diameter*1.15;
+  let minDiameter = diameter / 1.5;
+  let maxDiameter = diameter * 1.15;
   rmsBottomDiameter = map(rmsBottom, 0, 0.2, minDiameter, maxDiameter);
   fill(blue);
   arc(x, y, rmsBottomDiameter, rmsBottomDiameter, HALF_PI, HALF_PI + PI);
@@ -171,8 +171,8 @@ function drawSplitCircleLR(x, y, diameter) {
 
 // Draw a circle divided by top green
 function drawSplitCircleTopGreen(x, y, diameter) {
-  let minDiameter = diameter /1.5;
-  let maxDiameter = diameter*1.15;
+  let minDiameter = diameter / 1.5;
+  let maxDiameter = diameter * 1.15;
   rmsTopDiameter = map(rmsTop, 0, 0.2, minDiameter, maxDiameter);
   fill(green);
   arc(x, y, rmsTopDiameter, rmsTopDiameter, PI, 0);
