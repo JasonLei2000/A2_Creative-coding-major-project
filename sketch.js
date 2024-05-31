@@ -92,8 +92,8 @@ function draw() {
 
   fill(yellow);
  
-  arc(centerX + 1.6 * diameters[5],centerY + 1.71 * diameters[5] + diameters[6] + diameters[7]+0.079*height,diameters[5]+200*rmsTop,diameters[5]+200*rmsTop, PI, 0);
-  arc(centerX - 1.6 * diameters[5],centerY + 1.71 * diameters[5] + diameters[6] + diameters[7]+0.079*height,diameters[5]+200*rmsTop,diameters[5]+200*rmsTop, PI, 0);
+  arc(centerX + 1.6 * diameters[5],centerY + 1.71 * diameters[5] + diameters[6] + diameters[7]+0.079*height,diameters[5]+150*rmsTop,diameters[5]+150*rmsTop, PI, 0);
+  arc(centerX - 1.6 * diameters[5],centerY + 1.71 * diameters[5] + diameters[6] + diameters[7]+0.079*height,diameters[5]+150*rmsTop,diameters[5]+150*rmsTop, PI, 0);
 
   pop();
 
