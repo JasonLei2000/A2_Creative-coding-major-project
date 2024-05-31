@@ -42,7 +42,7 @@ function draw() {
   // Setting page colours
   blue = '#3C4E90';
   modena = "#50547B"
-  green = '#49883F';
+  green = color(73, 136, 63, 127);
   yellow = '#E4CB66';
 
   let rectMargin = 0.1 * width;
@@ -149,7 +149,6 @@ function drawSplitCircle(x, y, diameter) {
   let minDiameter = diameter /1.5;
   let maxDiameter = diameter*1.15;
   rmsTopDiameter = map(rmsTop, 0, 0.2, minDiameter, maxDiameter);
-
   fill(blue);
   arc(x, y,  rmsTopDiameter,  rmsTopDiameter, PI, 0);
   fill(green);
@@ -162,8 +161,6 @@ function drawSplitCircle(x, y, diameter) {
 function drawSplitCircleLR(x, y, diameter) {
   let minDiameter = diameter /1.5;
   let maxDiameter = diameter*1.15;
-  
-  
   rmsBottomDiameter = map(rmsBottom, 0, 0.2, minDiameter, maxDiameter);
   fill(blue);
   arc(x, y, rmsBottomDiameter, rmsBottomDiameter, HALF_PI, HALF_PI + PI);
@@ -177,7 +174,6 @@ function drawSplitCircleLR(x, y, diameter) {
 function drawSplitCircleTopRed(x, y, diameter) {
   let minDiameter = diameter /1.5;
   let maxDiameter = diameter*1.15;
-  
   rmsTopDiameter = map(rmsTop, 0, 0.2, minDiameter, maxDiameter);
   fill(green);
   arc(x, y, rmsTopDiameter, rmsTopDiameter, PI, 0);
