@@ -40,5 +40,9 @@ from https://p5js.org/reference/#/p5/createGraphics
 >Reference | isPlaying(). (n.d.). Retrieved
 from https://p5js.org/reference/#/p5.SoundFile/isPlaying  
 
+>The Real Group. (n.d.). Words—The Real Group. Retrieved from https://open.spotify.com/artist/4EIXOUTnf8Gtbk2kq4LYNK
+
+
 >Vincent van Gogh. The Olive Trees. Saint Rémy, June-July 1889 | MoMA. (n.d.). Retrieved
 from https://www.moma.org/collection/works/80013
+
