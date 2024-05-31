@@ -19,7 +19,7 @@ Different frequencies are extracted from the two pieces of audio, which allows f
 As the mouse moves across the screen, the coordinates of the mouse's x are extracted and mapped to the value of pan. On this basis, as the user moves the mouse, panning is constantly changing.<br>
 
 **Code Animation Inspiration**: <br>
-I took the inspiration for this animation from Vincent van Gogh's painting ‘_Olive Trees_’. I incorporated the colour style of this painting into the artwork. I incorporated the green of the leaves and the blue of the night sky into the fruits of the trees.  In the animation, these fruits fluctuate with the rhythmic audio, creating a unique audio-visual experience. This coordination makes the work not only visually appealing, but also a pleasurable and immersive auditory experience.<br>
+I took the inspiration for this animation from Vincent van Gogh's painting ‘_Olive Trees_’. I incorporated the colour style of this painting into the artwork. I incorporated the green of the leaves and the blue of the night sky into the fruits of the trees.  In the animation, these fruits fluctuate with the rhythmic audio, creating a unique audio-visual experience. This coordination makes the work more dynamic on a visual level.<br>
 
 ![Olive Trees](asserts/Olive%20Trees.png)
 
