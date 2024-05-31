@@ -1,9 +1,7 @@
-let song, analyzerTop,analyzerBottom, rmsTopDiameter,rmsBottomDiameter, InitialRmsDiameter;
-let rmsTop,rmsBottom,button,blue,green,yellow,modena
-;
+// Setting the global parameters
+let song,analyzerTop,analyzerBottom, rmsTopDiameter,rmsBottomDiameter, InitialRmsDiameter, rmsTop,rmsBottom,button,blue,green,yellow,modena;
 let pan = 0.0;
 let isPlaying = false; 
-
 
 // Load audio
 function preload() {
@@ -25,7 +23,7 @@ function setup() {
   buttonPos();
   button.mousePressed(play_pause);
 
-    // Creating a background texture
+  // Creating a background texture
   staticBackground = createGraphics(windowWidth, windowHeight);
   for (let i = 0; i < 10000; i++) {
     staticBackground.stroke(200, 200, 250, 50);
@@ -36,13 +34,14 @@ function setup() {
 function draw() {
   background("#151741");
   
+  // Get the audio amplitude
   rmsTop = analyzerTop.getLevel();
   rmsBottom = analyzerBottom.getLevel();
 
   // Setting page colours
   blue = '#3C4E90';
   modena = "#50547B"
-  green = color(73, 136, 63, 127);
+  green = '#49883F';
   yellow = '#E4CB66';
 
   let rectMargin = 0.1 * width;
@@ -64,16 +63,16 @@ function draw() {
 
   
     // Central circle
-  drawSplitCircle(centerX, centerY, diameters[0]);
+  drawSplitCircleTopBlue(centerX, centerY, diameters[0]);
 
     // Left arm circle
-  drawSplitCircle(centerX - 0.82 * diameters[0], centerY, diameters[1]);
-  drawSplitCircle(centerX - 0.7 * diameters[0] - diameters[1], centerY, diameters[2]);
+  drawSplitCircleTopBlue(centerX - 0.82 * diameters[0], centerY, diameters[1]);
+  drawSplitCircleTopBlue(centerX - 0.7 * diameters[0] - diameters[1], centerY, diameters[2]);
   drawSplitCircleLR(centerX - 0.95 * diameters[0] - diameters[1] - diameters[2] / 2, centerY - 2 * diameters[2] / 2, diameters[3]);
  
     // Right arm circle
-  drawSplitCircle(centerX + 0.88 * diameters[0], centerY, diameters[3]);
-  drawSplitCircle(centerX + 1.26 * diameters[0] + diameters[2], centerY, diameters[3]);
+  drawSplitCircleTopBlue(centerX + 0.88 * diameters[0], centerY, diameters[3]);
+  drawSplitCircleTopBlue(centerX + 1.26 * diameters[0] + diameters[2], centerY, diameters[3]);
   drawLine(centerX - 0.95 * diameters[0] - diameters[1] - diameters[2] / 2, centerY, centerX + 1.26 * diameters[6] + diameters[4] + diameters[7] / 2, centerY);
   drawLine(centerX - 0.95 * diameters[0] - diameters[1] - diameters[2] / 2, centerY - 2 * diameters[2] / 2 + diameters[3] / 2, centerX - 0.95 * diameters[0] - diameters[1] - diameters[2] / 2, centerY - 2 * diameters[2] / 2 - diameters[3] / 2);
 
@@ -109,10 +108,10 @@ function draw() {
   drawLine(centerX, centerY + 1.71 * diameters[5] + diameters[6] + diameters[7] + diameters[5] / 2, centerX, centerY - diameters[0]/2-diameters[7]-diameters[0], diameters[0]);
 
   // Draw more middle bottom square, using red on top and green on bottom
-  drawSplitCircleTopRed(centerX + 0.8 * diameters[5], centerY + 1.71 * diameters[5] + diameters[6] + diameters[7], diameters[7]);
-  drawSplitCircleTopRed(centerX + 1.6 * diameters[5], centerY + 1.71 * diameters[5] + diameters[6] + diameters[7], diameters[5]);
-  drawSplitCircleTopRed(centerX - 0.8 * diameters[5], centerY + 1.71 * diameters[5] + diameters[6] + diameters[7], diameters[7]);
-  drawSplitCircleTopRed(centerX - 1.6 * diameters[5], centerY + 1.71 * diameters[5] + diameters[6] + diameters[7], diameters[5]);
+  drawSplitCircleTopGreen(centerX + 0.8 * diameters[5], centerY + 1.71 * diameters[5] + diameters[6] + diameters[7], diameters[7]);
+  drawSplitCircleTopGreen(centerX + 1.6 * diameters[5], centerY + 1.71 * diameters[5] + diameters[6] + diameters[7], diameters[5]);
+  drawSplitCircleTopGreen(centerX - 0.8 * diameters[5], centerY + 1.71 * diameters[5] + diameters[6] + diameters[7], diameters[7]);
+  drawSplitCircleTopGreen(centerX - 1.6 * diameters[5], centerY + 1.71 * diameters[5] + diameters[6] + diameters[7], diameters[5]);
   drawLine(centerX - 2.1 * diameters[5] , centerY + 1.71 * diameters[5] + diameters[6] + diameters[7], centerX + 1.6 * diameters[5] + diameters[5] / 2, centerY + 1.71 * diameters[5] + diameters[6] + diameters[7]);
 
    // Right side vertical circle
@@ -129,7 +128,7 @@ function windowResized() {
   redraw();
   buttonPos()
 }
-
+// Drawing rectangular function
 function drawRect(x, y, width, height, color) {
   fill(color);
   rect(x, y, width, height);
@@ -144,8 +143,8 @@ function drawLine(x, y, x1, y1) {
   pop();
 }
 
-// Draw a circle divided up and down
-function drawSplitCircle(x, y, diameter) {
+// // Draw a circle divided by top blue
+function drawSplitCircleTopBlue(x, y, diameter) {
   let minDiameter = diameter /1.5;
   let maxDiameter = diameter*1.15;
   rmsTopDiameter = map(rmsTop, 0, 0.2, minDiameter, maxDiameter);
@@ -170,8 +169,8 @@ function drawSplitCircleLR(x, y, diameter) {
   ellipse(x, y, rmsBottomDiameter, rmsBottomDiameter);
 }
 
-// Draw a circle divided by red and green
-function drawSplitCircleTopRed(x, y, diameter) {
+// Draw a circle divided by top green
+function drawSplitCircleTopGreen(x, y, diameter) {
   let minDiameter = diameter /1.5;
   let maxDiameter = diameter*1.15;
   rmsTopDiameter = map(rmsTop, 0, 0.2, minDiameter, maxDiameter);
@@ -204,8 +203,8 @@ function buttonPos(){
   button.position((width - button.width) / 2, (height - button.height)*0.9 );
 }
 
+// Mouse movement to control panning
 function mouseMoved() {
-
   pan = map(mouseX, 0, width, -1, 1);
   songTop.pan(pan);
   songBottom.pan(pan);
